@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../ClothesShop/ClothesCollectionViewCell.swift">
+   </FileRef>
+   <FileRef
+      location = "group:../ClothesShop/ClothesCollectionViewController.swift">
+   </FileRef>
+   <FileRef
       location = "self:ClothesShop.xcodeproj">
    </FileRef>
 </Workspace>

@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		5F3838FE1D84B72B00E87059 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3838FD1D84B72B00E87059 /* AppDelegate.swift */; };
-		5F3839001D84B72B00E87059 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3838FF1D84B72B00E87059 /* ViewController.swift */; };
 		5F3839031D84B72B00E87059 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F3839011D84B72B00E87059 /* Main.storyboard */; };
 		5F3839051D84B72B00E87059 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F3839041D84B72B00E87059 /* Images.xcassets */; };
 		5F3839081D84B72B00E87059 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F3839061D84B72B00E87059 /* LaunchScreen.xib */; };
 		5F3839141D84B72B00E87059 /* ClothesShopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3839131D84B72B00E87059 /* ClothesShopTests.swift */; };
+		5F38391E1D84B88A00E87059 /* Clothes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F38391D1D84B88A00E87059 /* Clothes.swift */; };
+		5F3839221D84BB1E00E87059 /* ClothesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3839211D84BB1E00E87059 /* ClothesCollectionViewController.swift */; };
+		5F3839241D84BC1B00E87059 /* ClothesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3839231D84BC1B00E87059 /* ClothesCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,13 +31,15 @@
 		5F3838F81D84B72B00E87059 /* ClothesShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClothesShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F3838FC1D84B72B00E87059 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F3838FD1D84B72B00E87059 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5F3838FF1D84B72B00E87059 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5F3839021D84B72B00E87059 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5F3839041D84B72B00E87059 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5F3839071D84B72B00E87059 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5F38390D1D84B72B00E87059 /* ClothesShopTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClothesShopTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F3839121D84B72B00E87059 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F3839131D84B72B00E87059 /* ClothesShopTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothesShopTests.swift; sourceTree = "<group>"; };
+		5F38391D1D84B88A00E87059 /* Clothes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clothes.swift; sourceTree = "<group>"; };
+		5F3839211D84BB1E00E87059 /* ClothesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClothesCollectionViewController.swift; sourceTree = "<group>"; };
+		5F3839231D84BC1B00E87059 /* ClothesCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClothesCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,8 +82,10 @@
 			isa = PBXGroup;
 			children = (
 				5F3838FD1D84B72B00E87059 /* AppDelegate.swift */,
-				5F3838FF1D84B72B00E87059 /* ViewController.swift */,
+				5F3839211D84BB1E00E87059 /* ClothesCollectionViewController.swift */,
+				5F3839231D84BC1B00E87059 /* ClothesCollectionViewCell.swift */,
 				5F3839011D84B72B00E87059 /* Main.storyboard */,
+				5F38391D1D84B88A00E87059 /* Clothes.swift */,
 				5F3839041D84B72B00E87059 /* Images.xcassets */,
 				5F3839061D84B72B00E87059 /* LaunchScreen.xib */,
 				5F3838FB1D84B72B00E87059 /* Supporting Files */,
@@ -212,8 +218,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F3839001D84B72B00E87059 /* ViewController.swift in Sources */,
+				5F38391E1D84B88A00E87059 /* Clothes.swift in Sources */,
+				5F3839221D84BB1E00E87059 /* ClothesCollectionViewController.swift in Sources */,
 				5F3838FE1D84B72B00E87059 /* AppDelegate.swift in Sources */,
+				5F3839241D84BC1B00E87059 /* ClothesCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +351,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ClothesShop/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -353,6 +362,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ClothesShop/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
