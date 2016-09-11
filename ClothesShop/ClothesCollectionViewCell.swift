@@ -12,5 +12,6 @@ class ClothesCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var shoePicture: UIImageView!
     @IBOutlet weak var shoeName: UILabel!
+    @IBOutlet weak var shoePrice: UILabel!
     
 }

@@ -2,10 +2,25 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../ClothesShop/ClothesCollectionViewCell.swift">
+      location = "group:../ClothesShop/WishlistTableViewCell.swift">
    </FileRef>
    <FileRef
-      location = "group:../ClothesShop/ClothesCollectionViewController.swift">
+      location = "group:../ClothesShop/ShoeImageTableViewCell.swift">
+   </FileRef>
+   <FileRef
+      location = "group:../ClothesShop/AvailabilityTableViewCell.swift">
+   </FileRef>
+   <FileRef
+      location = "group:../ClothesShop/CategoryTableViewCell.swift">
+   </FileRef>
+   <FileRef
+      location = "group:../ClothesShop/PriceTableViewCell.swift">
+   </FileRef>
+   <FileRef
+      location = "group:../ClothesShop/ProductTableViewCell.swift">
+   </FileRef>
+   <FileRef
+      location = "group:../ClothesShop/ProductTableViewController.swift">
    </FileRef>
    <FileRef
       location = "self:ClothesShop.xcodeproj">

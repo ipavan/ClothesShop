@@ -23,8 +23,8 @@ class ClothesCollectionViewController: UICollectionViewController {
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
             if let response = response, data = data {
-                //print(response)
-                //print(String(format: data, NSUTF8StringEncoding))
+                
+                //retrieves the data and puts it in an array
                 var json: Array<AnyObject>?
                 
                 json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(), error: nil) as? Array
@@ -32,16 +32,6 @@ class ClothesCollectionViewController: UICollectionViewController {
                 if let products = json {
                     self.populateClothes(products)
                 }
-                
-                /*if let products = json {
-                    for x in products {
-                        if let item = x as? [String:AnyObject] {
-                            if let price = item["price"] as? Int {
-                                print(price)
-                            }
-                        }
-                    }
-                }*/
                 
             } else {
                 print(error)
@@ -53,16 +43,24 @@ class ClothesCollectionViewController: UICollectionViewController {
     }
 
     override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+        super.didReceiveMemoryWarning()    }
     
-    // MARK: Data Entry
+    // MARK: Data Initialization
     
     func populateClothes(products: Array<AnyObject>) {
         
+        /*
+        Takes in an array of JSON formatted products,
+        iterates through each item and creates an instance of Clothes
+        with the data. The clothes array is updated with the new values
+        and the collection view is updated on the main thread using the
+        updated clothes array values.
+        */
+        
+        
         var category: String, name: String, oldPrice: Int?, price: Int, productId: Int, stock: Int
         
+        //iterate
         for item in products {
             if let details = item as? [String:AnyObject] {
                 if let cat = details["category"] as? String {
@@ -106,7 +104,11 @@ class ClothesCollectionViewController: UICollectionViewController {
                 clothes.append(newItem)
             }
         }
-        self.collectionView?.reloadData()
+        
+        //update UI on the main thread
+        dispatch_async(dispatch_get_main_queue(), {
+            self.collectionView?.reloadData()
+        })
     }
     
 
@@ -135,8 +137,20 @@ class ClothesCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! ClothesCollectionViewCell
     
         cell.shoeName.text = clothes[indexPath.row].name
+        cell.shoePrice.text = "£" + String(clothes[indexPath.row].price)
     
         return cell
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showProductDetail" {
+            let productView = segue.destinationViewController as! ProductTableViewController
+            if let selectedProduct = sender as? ClothesCollectionViewCell {
+                let indexPath = collectionView?.indexPathForCell(selectedProduct)
+                let product = clothes[indexPath!.row]
+                productView.product = product
+            }
+        }
     }
 
     // MARK: UICollectionViewDelegate
