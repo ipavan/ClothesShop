@@ -95,6 +95,7 @@ class WishListTableViewController: UITableViewController {
                     print(response)
                     //print(String(_cocoaString: data))
                     dispatch_async(dispatch_get_main_queue(), {
+                        product.cartId = UniqueCartIds.getUniqueId()
                         self.cart?.append(product)
                         let _ = NSKeyedArchiver.archiveRootObject(self.cart!, toFile: Cart.ArchiveURL.path!)
                         
@@ -129,23 +130,6 @@ class WishListTableViewController: UITableViewController {
             presentViewController(alert, animated: true, completion: nil)
         }
 
-    }
-    
-    func getUniqueCartId() -> Int {
-        let id = NSKeyedUnarchiver.unarchiveObjectWithFile(UniqueCartIds.ArchiveURL.path!) as? UniqueCartIds
-        if let cartId = id {
-            //file exists
-            var uniqueId = cartId
-            uniqueId.cartId += 1
-            let _ = NSKeyedArchiver.archiveRootObject(uniqueId, toFile: UniqueCartIds.ArchiveURL.path!)
-            return uniqueId.cartId
-        }
-        else {
-            //no file exists
-            let uniqueId = UniqueCartIds(cartId: 1)
-            let _ = NSKeyedArchiver.archiveRootObject(uniqueId, toFile: UniqueCartIds.ArchiveURL.path!)
-            return uniqueId.cartId
-        }
     }
 
     

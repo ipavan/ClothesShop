@@ -34,4 +34,21 @@ class UniqueCartIds: NSObject, NSCoding {
         self.init(cartId: id)
     }
     
+    static func getUniqueId() -> Int {
+        let id = NSKeyedUnarchiver.unarchiveObjectWithFile(UniqueCartIds.ArchiveURL.path!) as? UniqueCartIds
+        if let cartId = id {
+            //file exists
+            var uniqueId = cartId
+            uniqueId.cartId += 1
+            let _ = NSKeyedArchiver.archiveRootObject(uniqueId, toFile: UniqueCartIds.ArchiveURL.path!)
+            return uniqueId.cartId
+        }
+        else {
+            //no file exists
+            let uniqueId = UniqueCartIds(cartId: 1)
+            let _ = NSKeyedArchiver.archiveRootObject(uniqueId, toFile: UniqueCartIds.ArchiveURL.path!)
+            return uniqueId.cartId
+        }
+    }
+    
 }

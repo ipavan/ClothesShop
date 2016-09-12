@@ -145,7 +145,6 @@ class ProductTableViewController: UITableViewController {
 
     
     @IBAction func addToCart(sender: UIButton) {
-        self.product?.cartId = self.getUniqueCartId()
         
         if let x = self.cart {
             //do nothing
@@ -165,6 +164,7 @@ class ProductTableViewController: UITableViewController {
             if let response = response, data = data {
                 print(response)
                 dispatch_async(dispatch_get_main_queue(), {
+                    self.product?.cartId = UniqueCartIds.getUniqueId()
                     self.cart?.append(self.product!)
                     let _ = NSKeyedArchiver.archiveRootObject(self.cart!, toFile: Cart.ArchiveURL.path!)
                     self.tableView.reloadData()
@@ -192,24 +192,6 @@ class ProductTableViewController: UITableViewController {
         task.resume()
 
     }
-    
-    func getUniqueCartId() -> Int {
-        let id = NSKeyedUnarchiver.unarchiveObjectWithFile(UniqueCartIds.ArchiveURL.path!) as? UniqueCartIds
-        if let cartId = id {
-            //file exists
-            var uniqueId = cartId
-            uniqueId.cartId += 1
-            let _ = NSKeyedArchiver.archiveRootObject(uniqueId, toFile: UniqueCartIds.ArchiveURL.path!)
-            return uniqueId.cartId
-        }
-        else {
-            //no file exists
-            let uniqueId = UniqueCartIds(cartId: 1)
-            let _ = NSKeyedArchiver.archiveRootObject(uniqueId, toFile: UniqueCartIds.ArchiveURL.path!)
-            return uniqueId.cartId
-        }
-    }
-    
 
     
     // MARK: - Navigation
