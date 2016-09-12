@@ -11,6 +11,7 @@ import UIKit
 class WishListTableViewController: UITableViewController {
     
     var wishList = [Clothes]()
+    var cart: [Clothes]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,15 @@ class WishListTableViewController: UITableViewController {
         if let list = wishes {
             wishList = list
         }
+        
+        self.cart = NSKeyedUnarchiver.unarchiveObjectWithFile(Cart.ArchiveURL.path!) as? [Clothes]
+        if let x = self.cart {
+            //do nothing
+        }
+        else {
+            self.cart = [Clothes]()
+        }
+        
         self.tableView.reloadData()
     }
 
@@ -52,18 +62,91 @@ class WishListTableViewController: UITableViewController {
 
         cell.productPrice.text = "£\(wishList[indexPath.row].price)"
         cell.productName.text = wishList[indexPath.row].name
-
+        
+        cell.addToCartButton.tag = indexPath.row
+        
         return cell
     }
     
+    @IBAction func addToCart(sender: UIButton) {
+        
+        let product: Clothes = wishList[sender.tag]
+        
+        var numberInCart = 0
+        if let x = cart {
+            for item in x as [Clothes] {
+                if item.productId == product.productId {
+                    numberInCart += 1
+                }
+            }
+        }
+        
+        if numberInCart < product.stock {
+            let url = NSURL(string: "http://private-anon-2fbfc01d86-ddshop.apiary-mock.com/cart")!
+            let request = NSMutableURLRequest(URL: url)
+            request.HTTPMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            request.HTTPBody = "{\n  \"productId\": \(product.productId)\n}".dataUsingEncoding(NSUTF8StringEncoding);
+            
+            let session = NSURLSession.sharedSession()
+            let task = session.dataTaskWithRequest(request) { data, response, error in
+                if let response = response, data = data {
+                    print(response)
+                    //print(String(_cocoaString: data))
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.cart?.append(product)
+                        let _ = NSKeyedArchiver.archiveRootObject(self.cart!, toFile: Cart.ArchiveURL.path!)
+                        
+                        let alert = UIAlertController(title: "Added To Cart!", message: nil, preferredStyle: .Alert)
+                        let action = UIAlertAction(title: "Great!", style: .Default, handler: nil)
+                        
+                        alert.addAction(action)
+                        
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    })
+                } else {
+                    print(error)
+                    dispatch_async(dispatch_get_main_queue(), {
+                        let alert = UIAlertController(title: "Something went wrong!", message: nil, preferredStyle: .Alert)
+                        let action = UIAlertAction(title: "Sorry!", style: .Default, handler: nil)
+                        
+                        alert.addAction(action)
+                        
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    })
+                }
+            }
+            
+            task.resume()
+        }
+        else {
+            let alert = UIAlertController(title: "No More In Stock!", message: nil, preferredStyle: .Alert)
+            let action = UIAlertAction(title: "Sorry!", style: .Default, handler: nil)
+            
+            alert.addAction(action)
+            
+            presentViewController(alert, animated: true, completion: nil)
+        }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
     }
-    */
+    
+    func getUniqueCartId() -> Int {
+        let id = NSKeyedUnarchiver.unarchiveObjectWithFile(UniqueCartIds.ArchiveURL.path!) as? UniqueCartIds
+        if let cartId = id {
+            //file exists
+            var uniqueId = cartId
+            uniqueId.cartId += 1
+            let _ = NSKeyedArchiver.archiveRootObject(uniqueId, toFile: UniqueCartIds.ArchiveURL.path!)
+            return uniqueId.cartId
+        }
+        else {
+            //no file exists
+            let uniqueId = UniqueCartIds(cartId: 1)
+            let _ = NSKeyedArchiver.archiveRootObject(uniqueId, toFile: UniqueCartIds.ArchiveURL.path!)
+            return uniqueId.cartId
+        }
+    }
 
     
     // Override to support editing the table view.
@@ -74,34 +157,9 @@ class WishListTableViewController: UITableViewController {
             
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+            
         }    
     }
     
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -11,4 +11,5 @@ import UIKit
 class WishesTableViewCell: UITableViewCell {
     @IBOutlet weak var productName: UILabel!
     @IBOutlet weak var productPrice: UILabel!
+    @IBOutlet weak var addToCartButton: UIButton!
 }

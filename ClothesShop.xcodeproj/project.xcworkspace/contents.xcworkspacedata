@@ -2,6 +2,15 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../ClothesShop/TotalPriceTableViewCell.swift">
+   </FileRef>
+   <FileRef
+      location = "group:../ClothesShop/CartTableViewCell.swift">
+   </FileRef>
+   <FileRef
+      location = "group:../ClothesShop/CartTableViewController.swift">
+   </FileRef>
+   <FileRef
       location = "group:../ClothesShop/AddToCartViewController.swift">
    </FileRef>
    <FileRef

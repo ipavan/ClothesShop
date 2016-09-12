@@ -13,10 +13,19 @@ let reuseIdentifier = "clothesCell"
 class ClothesCollectionViewController: UICollectionViewController {
     
     var clothes: Array<Clothes> = []
+    var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.center = view.center
+        
+        loadData()
+    }
+    
+    func loadData() {
+        activityIndicator.startAnimating()
         let url = NSURL(string: "http://private-anon-2fbfc01d86-ddshop.apiary-mock.com/products")!
         let request = NSMutableURLRequest(URL: url)
         
@@ -35,11 +44,20 @@ class ClothesCollectionViewController: UICollectionViewController {
                 
             } else {
                 print(error)
+                dispatch_async(dispatch_get_main_queue(), {
+                    let alert = UIAlertController(title: "Something went wrong!", message: nil, preferredStyle: .Alert)
+                    let action = UIAlertAction(title: "Try Again", style: .Default, handler: { action in
+                        self.loadData()
+                    })
+                    
+                    alert.addAction(action)
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                })
             }
         }
         
         task.resume()
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -100,13 +118,14 @@ class ClothesCollectionViewController: UICollectionViewController {
                     stock = -1
                 }
                 
-                let newItem = Clothes(productId: productId, name: name, category: category, price: price, oldPrice: oldPrice, stock: stock, numberInCart: nil)
+                let newItem = Clothes(productId: productId, name: name, category: category, price: price, oldPrice: oldPrice, stock: stock, numberInCart: nil, cartId: nil)
                 clothes.append(newItem)
             }
         }
         
         //update UI on the main thread
         dispatch_async(dispatch_get_main_queue(), {
+            self.activityIndicator.stopAnimating()
             self.collectionView?.reloadData()
         })
     }

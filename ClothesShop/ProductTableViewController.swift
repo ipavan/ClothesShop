@@ -11,20 +11,19 @@ import UIKit
 class ProductTableViewController: UITableViewController {
     
     var product: Clothes?
+    var cart: [Clothes]?
+    var items = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        self.tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
@@ -34,22 +33,22 @@ class ProductTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var cart = NSKeyedUnarchiver.unarchiveObjectWithFile(Cart.ArchiveURL.path!) as? [Clothes]
+        cart = NSKeyedUnarchiver.unarchiveObjectWithFile(Cart.ArchiveURL.path!) as? [Clothes]
         var numberInCart = 0
         if let productInCart = cart {
             //list contains values
             for cartProduct in productInCart as [Clothes] {
                 if cartProduct.productId == self.product?.productId {
-                    if let totalProducts = self.product?.numberInCart {
-                        numberInCart = totalProducts
-                    }
+                    numberInCart += 1
                 }
             }
         }
         
-        var items = 0
+        
+        items = 0
         if let prod = product?.stock {
             items = prod - numberInCart
+            //print("items: \(items), prod: \(prod), number: \(numberInCart) \n")
         }
         
         if items > 0 {
@@ -84,7 +83,7 @@ class ProductTableViewController: UITableViewController {
         case 4:
             let cell = tableView.dequeueReusableCellWithIdentifier("availability", forIndexPath: indexPath) as! AvailabilityTableViewCell
             if product?.stock > 0 {
-                cell.status.text = "In Stock!"
+                cell.status.text = "\(items) left In Stock!"
             }
             else {
                 cell.status.text = "Out of Stock"
@@ -106,7 +105,7 @@ class ProductTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch indexPath.row {
         case 0:
-            return CGFloat(312)
+            return CGFloat(275)
         default:
             return 44
         }
@@ -123,7 +122,6 @@ class ProductTableViewController: UITableViewController {
                 for wish in wishlist as [Clothes] {
                     if wish.productId == self.product?.productId {
                         //product is already in wish list
-                        print("nothing to be added")
                         return
                     }
                 }
@@ -146,42 +144,72 @@ class ProductTableViewController: UITableViewController {
 
 
     
+    @IBAction func addToCart(sender: UIButton) {
+        self.product?.cartId = self.getUniqueCartId()
+        
+        if let x = self.cart {
+            //do nothing
+        } else {
+            self.cart = [Clothes]()
+        }
+        
+        let url = NSURL(string: "http://private-anon-2fbfc01d86-ddshop.apiary-mock.com/cart")!
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        request.HTTPBody = "{\n  \"productId\": \(self.product?.productId)\n}".dataUsingEncoding(NSUTF8StringEncoding);
+        
+        let session = NSURLSession.sharedSession()
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            if let response = response, data = data {
+                print(response)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.cart?.append(self.product!)
+                    let _ = NSKeyedArchiver.archiveRootObject(self.cart!, toFile: Cart.ArchiveURL.path!)
+                    self.tableView.reloadData()
+                    
+                    let alert = UIAlertController(title: "Added To Cart!", message: nil, preferredStyle: .Alert)
+                    let action = UIAlertAction(title: "Great!", style: .Default, handler: nil)
+                    
+                    alert.addAction(action)
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                })
+            } else {
+                print(error)
+                dispatch_async(dispatch_get_main_queue(), {
+                    let alert = UIAlertController(title: "Something went wrong!", message: nil, preferredStyle: .Alert)
+                    let action = UIAlertAction(title: "Sorry!", style: .Default, handler: nil)
+                    
+                    alert.addAction(action)
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
+                })
+            }
+        }
+        
+        task.resume()
+
+    }
     
+    func getUniqueCartId() -> Int {
+        let id = NSKeyedUnarchiver.unarchiveObjectWithFile(UniqueCartIds.ArchiveURL.path!) as? UniqueCartIds
+        if let cartId = id {
+            //file exists
+            var uniqueId = cartId
+            uniqueId.cartId += 1
+            let _ = NSKeyedArchiver.archiveRootObject(uniqueId, toFile: UniqueCartIds.ArchiveURL.path!)
+            return uniqueId.cartId
+        }
+        else {
+            //no file exists
+            let uniqueId = UniqueCartIds(cartId: 1)
+            let _ = NSKeyedArchiver.archiveRootObject(uniqueId, toFile: UniqueCartIds.ArchiveURL.path!)
+            return uniqueId.cartId
+        }
+    }
     
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     
     // MARK: - Navigation

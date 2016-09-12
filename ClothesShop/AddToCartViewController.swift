@@ -26,8 +26,8 @@ class AddToCartViewController: UIViewController, UIPickerViewDataSource, UIPicke
         picker.delegate = self
         
         productName.text = product?.name
-        productPrice.text = "None"
-        totalPrice.text = "none"
+        productPrice.text = "£\(product!.price)"
+        totalPrice.text = "£\(product!.price)"
         let stock: Int! = product?.stock
         
         for i in 1...stock {
@@ -40,15 +40,15 @@ class AddToCartViewController: UIViewController, UIPickerViewDataSource, UIPicke
             //list contains values
             for cartProduct in productInCart as [Clothes] {
                 if cartProduct.productId == self.product?.productId {
-                    if let totalProducts = self.product?.numberInCart {
-                        numberInCart = totalProducts
-                    }
+                    numberInCart += 1
                 }
             }
         }
+        else {
+            cart = [Clothes]()
+        }
         
         if let prod = product?.stock {
-            print("items: \(items), prod: \(prod), number: \(numberInCart)")
             items = prod - numberInCart
         }
         
@@ -60,9 +60,16 @@ class AddToCartViewController: UIViewController, UIPickerViewDataSource, UIPicke
     }
     
     @IBAction func addToCart(sender: UIButton) {
-        dismissViewControllerAnimated(true, completion: {
-            
-        })
+        self.product?.cartId = self.getUniqueCartId()
+        if let number = self.product?.numberInCart {
+            self.product?.numberInCart = number + 1
+        }
+        else {
+            self.product?.numberInCart = 1
+        }
+        self.cart?.append(self.product!)
+        let _ = NSKeyedArchiver.archiveRootObject(self.cart!, toFile: Cart.ArchiveURL.path!)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func cancel(sender: UIButton) {
@@ -84,6 +91,23 @@ class AddToCartViewController: UIViewController, UIPickerViewDataSource, UIPicke
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         quantity = pickerEntries[row]
         print(quantity)
+    }
+    
+    func getUniqueCartId() -> Int {
+        let id = NSKeyedUnarchiver.unarchiveObjectWithFile(UniqueCartIds.ArchiveURL.path!) as? UniqueCartIds
+        if let cartId = id {
+            //file exists
+            var uniqueId = cartId
+            uniqueId.cartId += 1
+            let _ = NSKeyedArchiver.archiveRootObject(uniqueId, toFile: UniqueCartIds.ArchiveURL.path!)
+            return uniqueId.cartId
+        }
+        else {
+            //no file exists
+            let uniqueId = UniqueCartIds(cartId: 1)
+            let _ = NSKeyedArchiver.archiveRootObject(uniqueId, toFile: UniqueCartIds.ArchiveURL.path!)
+            return uniqueId.cartId
+        }
     }
     /*
     // MARK: - Navigation
