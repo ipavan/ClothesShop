@@ -11,7 +11,7 @@ import UIKit
 class Cart: NSObject, NSCoding {
     
     var clothesInCart: Array<Clothes> = []
-    var clothesInWishlist: Array<Clothes> = []
+    //var clothesInWishlist: Array<Clothes> = []
     
     static let DocumentsDirectory: AnyObject = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
     static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("cart")

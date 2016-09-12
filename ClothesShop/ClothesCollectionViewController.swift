@@ -100,7 +100,7 @@ class ClothesCollectionViewController: UICollectionViewController {
                     stock = -1
                 }
                 
-                let newItem = Clothes(productId: productId, name: name, category: category, price: price, oldPrice: oldPrice, stock: stock)
+                let newItem = Clothes(productId: productId, name: name, category: category, price: price, oldPrice: oldPrice, stock: stock, numberInCart: nil)
                 clothes.append(newItem)
             }
         }

@@ -17,8 +17,9 @@ class Clothes: NSObject, NSCoding {
     let price: Int
     let oldPrice: Int?
     var stock: Int
+    var numberInCart: Int?
     
-    init(productId: Int, name: String, category: String, price: Int, oldPrice: Int?, stock: Int) {
+    init(productId: Int, name: String, category: String, price: Int, oldPrice: Int?, stock: Int, numberInCart: Int?) {
         self.productId = productId
         self.name = name
         self.category = category
@@ -30,6 +31,12 @@ class Clothes: NSObject, NSCoding {
             self.oldPrice = nil
         }
         self.stock = stock
+        if let num = numberInCart {
+            self.numberInCart = num
+        }
+        else {
+            self.numberInCart = nil
+        }
     }
     
     static let DocumentsDirectory: AnyObject = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
@@ -42,6 +49,7 @@ class Clothes: NSObject, NSCoding {
         static let priceKey = "price"
         static let oldPriceKey = "oldprice"
         static let stockKey = "stock"
+        static let numberInCartKey = "numberInCart"
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
@@ -51,6 +59,7 @@ class Clothes: NSObject, NSCoding {
         aCoder.encodeObject(price, forKey: PropertyKey.priceKey)
         aCoder.encodeObject(oldPrice, forKey: PropertyKey.oldPriceKey)
         aCoder.encodeObject(stock, forKey: PropertyKey.stockKey)
+        aCoder.encodeObject(numberInCart, forKey: PropertyKey.numberInCartKey)
     }
     
     
@@ -61,8 +70,9 @@ class Clothes: NSObject, NSCoding {
         let prodPrice = aDecoder.decodeObjectForKey(PropertyKey.priceKey) as! Int
         let prodOldPrice = aDecoder.decodeObjectForKey(PropertyKey.oldPriceKey) as? Int
         let prodStock = aDecoder.decodeObjectForKey(PropertyKey.stockKey) as! Int
+        let prodInCart = aDecoder.decodeObjectForKey(PropertyKey.numberInCartKey) as? Int
         
-        self.init(productId: prodId, name: prodName, category: prodCat, price: prodPrice, oldPrice: prodOldPrice, stock: prodStock)
+        self.init(productId: prodId, name: prodName, category: prodCat, price: prodPrice, oldPrice: prodOldPrice, stock: prodStock, numberInCart: prodInCart)
     }
     
     

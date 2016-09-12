@@ -16,6 +16,9 @@
 		5F283BB81D85BBB300EDA9C6 /* Wishlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F283BB71D85BBB300EDA9C6 /* Wishlist.swift */; };
 		5F283BBA1D85BBDE00EDA9C6 /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F283BB91D85BBDE00EDA9C6 /* Cart.swift */; };
 		5F283BBC1D85D16A00EDA9C6 /* WishlistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F283BBB1D85D16A00EDA9C6 /* WishlistTableViewCell.swift */; };
+		5F283BBE1D86162C00EDA9C6 /* WishListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F283BBD1D86162C00EDA9C6 /* WishListTableViewController.swift */; };
+		5F283BC01D8617F700EDA9C6 /* WishesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F283BBF1D8617F700EDA9C6 /* WishesTableViewCell.swift */; };
+		5F283BC21D86254900EDA9C6 /* AddToCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F283BC11D86254900EDA9C6 /* AddToCartViewController.swift */; };
 		5F3838FE1D84B72B00E87059 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3838FD1D84B72B00E87059 /* AppDelegate.swift */; };
 		5F3839031D84B72B00E87059 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F3839011D84B72B00E87059 /* Main.storyboard */; };
 		5F3839051D84B72B00E87059 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F3839041D84B72B00E87059 /* Images.xcassets */; };
@@ -46,6 +49,9 @@
 		5F283BB71D85BBB300EDA9C6 /* Wishlist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wishlist.swift; sourceTree = "<group>"; };
 		5F283BB91D85BBDE00EDA9C6 /* Cart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		5F283BBB1D85D16A00EDA9C6 /* WishlistTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishlistTableViewCell.swift; sourceTree = "<group>"; };
+		5F283BBD1D86162C00EDA9C6 /* WishListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishListTableViewController.swift; sourceTree = "<group>"; };
+		5F283BBF1D8617F700EDA9C6 /* WishesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishesTableViewCell.swift; sourceTree = "<group>"; };
+		5F283BC11D86254900EDA9C6 /* AddToCartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddToCartViewController.swift; sourceTree = "<group>"; };
 		5F3838F81D84B72B00E87059 /* ClothesShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClothesShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F3838FC1D84B72B00E87059 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F3838FD1D84B72B00E87059 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -100,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				5F3838FD1D84B72B00E87059 /* AppDelegate.swift */,
+				5F283BC11D86254900EDA9C6 /* AddToCartViewController.swift */,
 				5F3839211D84BB1E00E87059 /* ClothesCollectionViewController.swift */,
 				5F3839231D84BC1B00E87059 /* ClothesCollectionViewCell.swift */,
 				5F283BAB1D85A27500EDA9C6 /* ProductTableViewController.swift */,
@@ -109,6 +116,8 @@
 				5F283BB51D85AD8A00EDA9C6 /* ShoeImageTableViewCell.swift */,
 				5F283BB31D85A96900EDA9C6 /* AvailabilityTableViewCell.swift */,
 				5F283BBB1D85D16A00EDA9C6 /* WishlistTableViewCell.swift */,
+				5F283BBF1D8617F700EDA9C6 /* WishesTableViewCell.swift */,
+				5F283BBD1D86162C00EDA9C6 /* WishListTableViewController.swift */,
 				5F3839011D84B72B00E87059 /* Main.storyboard */,
 				5F283BB71D85BBB300EDA9C6 /* Wishlist.swift */,
 				5F283BB91D85BBDE00EDA9C6 /* Cart.swift */,
@@ -245,6 +254,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F283BC01D8617F700EDA9C6 /* WishesTableViewCell.swift in Sources */,
 				5F283BB41D85A96900EDA9C6 /* AvailabilityTableViewCell.swift in Sources */,
 				5F38391E1D84B88A00E87059 /* Clothes.swift in Sources */,
 				5F283BB61D85AD8A00EDA9C6 /* ShoeImageTableViewCell.swift in Sources */,
@@ -253,9 +263,11 @@
 				5F3839241D84BC1B00E87059 /* ClothesCollectionViewCell.swift in Sources */,
 				5F283BB81D85BBB300EDA9C6 /* Wishlist.swift in Sources */,
 				5F283BBA1D85BBDE00EDA9C6 /* Cart.swift in Sources */,
+				5F283BBE1D86162C00EDA9C6 /* WishListTableViewController.swift in Sources */,
 				5F283BB01D85A91900EDA9C6 /* PriceTableViewCell.swift in Sources */,
 				5F283BAC1D85A27500EDA9C6 /* ProductTableViewController.swift in Sources */,
 				5F283BBC1D85D16A00EDA9C6 /* WishlistTableViewCell.swift in Sources */,
+				5F283BC21D86254900EDA9C6 /* AddToCartViewController.swift in Sources */,
 				5F283BAE1D85A71500EDA9C6 /* ProductTableViewCell.swift in Sources */,
 				5F283BB21D85A94300EDA9C6 /* CategoryTableViewCell.swift in Sources */,
 			);

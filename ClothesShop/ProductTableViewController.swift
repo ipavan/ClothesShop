@@ -34,7 +34,25 @@ class ProductTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if product?.stock > 0 {
+        var cart = NSKeyedUnarchiver.unarchiveObjectWithFile(Cart.ArchiveURL.path!) as? [Clothes]
+        var numberInCart = 0
+        if let productInCart = cart {
+            //list contains values
+            for cartProduct in productInCart as [Clothes] {
+                if cartProduct.productId == self.product?.productId {
+                    if let totalProducts = self.product?.numberInCart {
+                        numberInCart = totalProducts
+                    }
+                }
+            }
+        }
+        
+        var items = 0
+        if let prod = product?.stock {
+            items = prod - numberInCart
+        }
+        
+        if items > 0 {
             return 7
         }
         else {
@@ -126,6 +144,10 @@ class ProductTableViewController: UITableViewController {
         presentViewController(alert, animated: true, completion: nil)
     }
 
+
+    
+    
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -161,14 +183,16 @@ class ProductTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "addToCart" {
+            let addToCart = segue.destinationViewController as! AddToCartViewController
+            addToCart.product = self.product
+        }
     }
-    */
+    
 
 }

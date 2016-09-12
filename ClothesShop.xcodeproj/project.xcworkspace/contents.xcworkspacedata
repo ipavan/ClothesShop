@@ -2,7 +2,16 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../ClothesShop/WishlistTableViewCell.swift">
+      location = "group:../ClothesShop/AddToCartViewController.swift">
+   </FileRef>
+   <FileRef
+      location = "group:../ClothesShop/WishesTableViewCell.swift">
+   </FileRef>
+   <FileRef
+      location = "group:../ClothesShop/WishListTableViewCell.swift">
+   </FileRef>
+   <FileRef
+      location = "group:../ClothesShop/WishListTableViewController.swift">
    </FileRef>
    <FileRef
       location = "group:../ClothesShop/ShoeImageTableViewCell.swift">
